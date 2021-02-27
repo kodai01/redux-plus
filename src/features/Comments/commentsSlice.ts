@@ -3,6 +3,7 @@ import {
   createEntityAdapter,
   createSlice,
 } from '@reduxjs/toolkit';
+import { RootState } from '../../app/store';
 
 export const fetchComments = createAsyncThunk(
   'comments/fetchComments',
@@ -15,6 +16,10 @@ export const fetchComments = createAsyncThunk(
 
 type Comments = {
   id: number;
+  postid: number;
+  name: string;
+  email: string;
+  body: string;
 };
 
 const commentsAdapter = createEntityAdapter<Comments>({
@@ -39,6 +44,21 @@ const commentSlice = createSlice({
     });
   },
 });
+
+console.log(commentsAdapter);
+console.log(commentSlice);
+
+export const commentsSelectors = commentsAdapter.getSelectors<RootState>(
+  (state) => state.comments
+);
+
+// export const {
+//   selectIds,
+//   selectById,
+//   selectTotal,
+//   selectEntities,
+//   selectAll,
+// } = commentsSelectors
 
 export const { setAllComments } = commentSlice.actions;
 
