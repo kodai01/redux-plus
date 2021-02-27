@@ -23,7 +23,7 @@ type Comments = {
 };
 
 const commentsAdapter = createEntityAdapter<Comments>({
-  selectId: (comment) => comment.id,
+  selectId: (comment) => comment.email,
 });
 const commentSlice = createSlice({
   name: 'comments',

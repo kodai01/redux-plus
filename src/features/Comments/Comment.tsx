@@ -1,28 +1,23 @@
 import React from 'react';
-// import { ButtonToolbar, Panel, Button } from 'rsuite';
+import { ButtonToolbar, Panel, Button } from 'rsuite';
 
-// type Props = {
-//   id: number;
-//   body: any;
-//   comment: {
-//     postid: number;
-//     id: number;
-//     name: string;
-//     email: string;
-//     body: string;
-//   };
-// };
+type Props = {
+  name: string;
+  email: string;
+  body: string;
+};
 
-// const Comment: React.FC<Props> = (props) => {
-//   return (
-//     <Panel style={{ color: 'white' }}>
-//       <span>{props.id}</span>
-//       <ButtonToolbar>
-//         <Button size="lg">ボタン</Button>
-//       </ButtonToolbar>
-//       <p>{props.body}</p>
-//     </Panel>
-//   );
-// };
+const Comment: React.FC<Props> = (props) => {
+  return (
+    <Panel style={{ color: 'white' }}>
+      <ButtonToolbar>
+        <Button size="lg">ボタン</Button>
+      </ButtonToolbar>
+      <p>送信{props.email}</p>
+      <p>差出人{props.name}</p>
+      <p>文章{props.body}</p>
+    </Panel>
+  );
+};
 
-// export default Comment;
+export default Comment;
