@@ -1,6 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import 'rsuite/dist/styles/rsuite-dark.css';
-import { fetchComments, commentsSelectors } from './commentsSlice';
+import {
+  fetchComments,
+  commentsSelectors,
+  deleteComment,
+} from './commentsSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import Comment from './Comment';
 import { RootState } from '../../app/store';
@@ -8,6 +12,11 @@ import { RootState } from '../../app/store';
 const Comments: React.FC = () => {
   const dispatch = useDispatch();
   const total = useSelector(commentsSelectors.selectTotal);
+
+  const onDelete = useCallback((id) => {
+    console.log(id);
+    dispatch(deleteComment(id));
+  }, []);
 
   console.log('selectAllは', useSelector(commentsSelectors.selectAll));
   console.log(
@@ -35,6 +44,8 @@ const Comments: React.FC = () => {
           email={comment.email}
           body={comment.body}
           key={comment.id}
+          id={comment.id}
+          onDelete={onDelete}
         />
       ))}
     </div>

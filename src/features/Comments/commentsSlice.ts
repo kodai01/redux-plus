@@ -3,6 +3,7 @@ import {
   createEntityAdapter,
   createSlice,
 } from '@reduxjs/toolkit';
+import { isTypeQueryNode } from 'typescript';
 import { RootState } from '../../app/store';
 
 export const fetchComments = createAsyncThunk(
@@ -22,8 +23,19 @@ type Comments = {
   body: string;
 };
 
+export const deleteComment = createAsyncThunk(
+  'comments/deleteComment',
+  async (id: number) => {
+    await fetch(`https://jsonplaceholder.typicode.com/comments/${id}`, {
+      method: 'DELETE',
+    });
+    console.log('idは', id);
+    return id;
+  }
+);
+
 const commentsAdapter = createEntityAdapter<Comments>({
-  selectId: (comment) => comment.email,
+  selectId: (comment) => comment.id,
 });
 const commentSlice = createSlice({
   name: 'comments',
@@ -41,6 +53,17 @@ const commentSlice = createSlice({
     });
     builder.addCase(fetchComments.rejected, (state) => {
       state.loading = false;
+    });
+    builder.addCase(deleteComment.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(deleteComment.rejected, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(deleteComment.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      console.log('payload', payload);
+      commentsAdapter.removeOne(state, payload);
     });
   },
 });
